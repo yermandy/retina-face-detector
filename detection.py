@@ -16,19 +16,19 @@ import csv
 parser = argparse.ArgumentParser(description='Retinaface')
 parser.add_argument('-m', '--trained_model', default='./weights/Resnet50_Final.pth',
                     type=str, help='Trained state_dict file path to open')
-parser.add_argument('--network', default='resnet50', help='Backbone network mobile0.25 or resnet50')
-parser.add_argument('--cuda', default='0', help='Cuda device to run on')
-parser.add_argument('--origin_size', default=True, type=str, help='Whether use origin image size to evaluate')
-parser.add_argument('--save_folder', default='results', type=str, help='Dir to save txt results')
-parser.add_argument('--cpu', action="store_true", default=False, help='Use cpu inference')
+parser.add_argument('--network', default='resnet50', help='backbone network mobile0.25 or resnet50')
+parser.add_argument('--cuda', default=0, type=int, help='cuda device to run on')
+parser.add_argument('--origin_size', default=True, type=str, help='whether use origin image size to evaluate')
+parser.add_argument('--save_folder', default='results', type=str, help='dir to save txt results')
+parser.add_argument('--cpu', action="store_true", default=False, help='use cpu inference')
 parser.add_argument('--dataset_folder', default='casia', type=str, help='dataset path')
 parser.add_argument('--confidence_threshold', default=0.02, type=float, help='confidence_threshold')
 parser.add_argument('--top_k', default=5000, type=int, help='top_k')
 parser.add_argument('--nms_threshold', default=0.1, type=float, help='nms_threshold')
 parser.add_argument('-s', '--save_image', action="store_true", default=False, help='show detection results')
 parser.add_argument('--vis_thres', default=0.5, type=float, help='visualization_threshold')
-parser.add_argument('--ref', default=None, type=str, help='Reference file in resources folder')
-parser.add_argument('--skip_n_first', default=0, type=int, help='Number of files to skip')
+parser.add_argument('--ref', default=None, type=str, help='reference file in resources folder')
+parser.add_argument('--skip_n_first', default=0, type=int, help='number of files to skip')
 args = parser.parse_args()
 
 
@@ -240,16 +240,16 @@ if __name__ == '__main__':
             boxes = [true_x1, true_y1, true_x2, true_y2, -1]
             landmarks = [*([-1 for _ in range(5, 15)])]
 
-            with open(f'{args.save_folder}/not_found_1.csv', 'a') as f:
+            with open(f'{args.save_folder}/{args.dataset_folder}_not_found.csv', 'a') as f:
                 writer = csv.writer(f)
                 writer.writerow([image_path])
                 
 
-        with open(f'{args.save_folder}/boxes_1.csv', 'a') as f:
+        with open(f'{args.save_folder}/{args.dataset_folder}_boxes.csv', 'a') as f:
             writer = csv.writer(f)
             writer.writerow([image_path, *boxes])
 
-        with open(f'{args.save_folder}/landmarks_1.csv', 'a') as f:
+        with open(f'{args.save_folder}/{args.dataset_folder}_landmarks.csv', 'a') as f:
             writer = csv.writer(f)
             writer.writerow([image_path, *landmarks])
 
